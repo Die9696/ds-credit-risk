@@ -1,0 +1,325 @@
+{
+  "model_name": "lightgbm",
+  "model_file": "model.txt",
+  "target": "default_payment_next_month",
+  "positive_class": 1,
+  "features": [
+    "limit_bal",
+    "education",
+    "marriage",
+    "age",
+    "pay_0",
+    "pay_2",
+    "pay_3",
+    "pay_4",
+    "pay_5",
+    "pay_6",
+    "bill_amt1",
+    "bill_amt2",
+    "bill_amt3",
+    "bill_amt4",
+    "bill_amt5",
+    "bill_amt6",
+    "pay_amt1",
+    "pay_amt2",
+    "pay_amt3",
+    "pay_amt4",
+    "pay_amt5",
+    "pay_amt6"
+  ],
+  "excluded_features": [
+    "id",
+    "sex"
+  ],
+  "threshold": 0.29,
+  "threshold_rule": "On validation, minimize 5*FN + 1*FP. Ties: higher recall, then lower threshold.",
+  "imbalance": {
+    "lightgbm": "scale_pos_weight = n_negative / n_positive on the training fold",
+    "logistic_regression": "class_weight=balanced",
+    "threshold": "same 5*FN + 1*FP rule, fit on validation probabilities",
+    "scale_pos_weight": 3.5200172191132157,
+    "train_positives": 4646,
+    "train_negatives": 16354,
+    "fn_cost": 5,
+    "fp_cost": 1
+  },
+  "cleaning": {
+    "education_keep": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "education_other_mapped_to": 4,
+    "marriage_keep": [
+      1,
+      2,
+      3
+    ],
+    "marriage_other_mapped_to": 3,
+    "rows_dropped": 0
+  },
+  "pay_status_note": "pay_0 is September 2005. The source file has no PAY_1 column. pay_2..pay_6 run from August back to April.",
+  "split": {
+    "seed": 42,
+    "train_rows": 21000,
+    "validation_rows": 4500,
+    "test_rows": 4500,
+    "train_default_rate": 0.22123809523809523,
+    "validation_default_rate": 0.22111111111111112
+  },
+  "lightgbm_version": "4.7.0",
+  "selected_params": {
+    "num_leaves": 31,
+    "min_child_samples": 50,
+    "learning_rate": 0.05,
+    "n_estimators": 400
+  },
+  "best_iteration": 13,
+  "validation": {
+    "logistic_regression": {
+      "roc_auc": 0.7311397214316948,
+      "pr_auc": 0.5171511397303044,
+      "f1": 0.5018329938900203,
+      "precision": 0.42191780821917807,
+      "recall": 0.6190954773869347,
+      "threshold": 0.51,
+      "confusion_matrix": {
+        "tn": 2661,
+        "fp": 844,
+        "fn": 379,
+        "tp": 616
+      },
+      "cost_5fn_1fp": 2739.0
+    },
+    "lightgbm": {
+      "roc_auc": 0.7816765711582162,
+      "pr_auc": 0.5560065222144288,
+      "f1": 0.4798556825015033,
+      "precision": 0.34234234234234234,
+      "recall": 0.8020100502512563,
+      "threshold": 0.29,
+      "confusion_matrix": {
+        "tn": 1972,
+        "fp": 1533,
+        "fn": 197,
+        "tp": 798
+      },
+      "cost_5fn_1fp": 2518.0
+    },
+    "candidates": [
+      {
+        "params": {
+          "num_leaves": 15,
+          "min_child_samples": 40,
+          "learning_rate": 0.05,
+          "n_estimators": 400
+        },
+        "validation_roc_auc": 0.7749659854192503,
+        "best_iteration": 11
+      },
+      {
+        "params": {
+          "num_leaves": 31,
+          "min_child_samples": 50,
+          "learning_rate": 0.05,
+          "n_estimators": 400
+        },
+        "validation_roc_auc": 0.7816765711582162,
+        "best_iteration": 13
+      },
+      {
+        "params": {
+          "num_leaves": 63,
+          "min_child_samples": 100,
+          "learning_rate": 0.05,
+          "n_estimators": 400
+        },
+        "validation_roc_auc": 0.7811091118932753,
+        "best_iteration": 13
+      }
+    ]
+  },
+  "data_quality": {
+    "rows": 30000,
+    "columns_including_id_and_target": 25,
+    "missing_cells": 0,
+    "duplicate_ids": 0,
+    "default_count": 6636,
+    "non_default_count": 23364,
+    "default_rate": 0.2212,
+    "education_counts": {
+      "0": 14,
+      "1": 10585,
+      "2": 14030,
+      "3": 4917,
+      "4": 123,
+      "5": 280,
+      "6": 51
+    },
+    "marriage_counts": {
+      "0": 54,
+      "1": 13659,
+      "2": 15964,
+      "3": 323
+    },
+    "undocumented_education_rows": 345,
+    "undocumented_marriage_rows": 54,
+    "negative_bill_rows": 1930,
+    "negative_bill_cells": 3932,
+    "pay_amount_max": 1684259.0,
+    "pay_amount_p99": 70181.15000000014,
+    "limit_bal_min": 10000.0,
+    "limit_bal_max": 1000000.0,
+    "age_min": 21,
+    "age_max": 79,
+    "pay_0_min": -2,
+    "pay_0_max": 8
+  },
+  "selection_metric": "validation ROC-AUC",
+  "test": {
+    "default_rate": 0.22111111111111112,
+    "logistic_regression": {
+      "roc_auc": 0.7117238116402269,
+      "pr_auc": 0.4989276168968849,
+      "f1": 0.47536460386283014,
+      "precision": 0.39105058365758755,
+      "recall": 0.6060301507537689,
+      "threshold": 0.51,
+      "confusion_matrix": {
+        "tn": 2566,
+        "fp": 939,
+        "fn": 392,
+        "tp": 603
+      },
+      "cost_5fn_1fp": 2899.0
+    },
+    "lightgbm": {
+      "roc_auc": 0.7789492397794967,
+      "pr_auc": 0.5402363963272083,
+      "f1": 0.47486694263749263,
+      "precision": 0.33640552995391704,
+      "recall": 0.807035175879397,
+      "threshold": 0.29,
+      "confusion_matrix": {
+        "tn": 1921,
+        "fp": 1584,
+        "fn": 192,
+        "tp": 803
+      },
+      "cost_5fn_1fp": 2544.0
+    }
+  },
+  "feature_importance": [
+    {
+      "feature": "pay_0",
+      "gain": 36048.37031173706,
+      "share": 0.5884694057232202
+    },
+    {
+      "feature": "pay_amt2",
+      "gain": 4290.773611068726,
+      "share": 0.07004447011509898
+    },
+    {
+      "feature": "pay_2",
+      "gain": 3130.201105117798,
+      "share": 0.05109877556720194
+    },
+    {
+      "feature": "limit_bal",
+      "gain": 2523.3358974456787,
+      "share": 0.04119204178077513
+    },
+    {
+      "feature": "pay_4",
+      "gain": 2114.5469074249268,
+      "share": 0.03451879103619479
+    },
+    {
+      "feature": "bill_amt1",
+      "gain": 1957.9562969207764,
+      "share": 0.03196253723863516
+    },
+    {
+      "feature": "pay_amt1",
+      "gain": 1902.278902053833,
+      "share": 0.031053635027904723
+    },
+    {
+      "feature": "pay_3",
+      "gain": 1874.0049781799316,
+      "share": 0.030592079095260495
+    },
+    {
+      "feature": "pay_amt3",
+      "gain": 1355.8536052703857,
+      "share": 0.02213354885231432
+    },
+    {
+      "feature": "bill_amt2",
+      "gain": 992.0614051818848,
+      "share": 0.016194845439607752
+    },
+    {
+      "feature": "pay_amt4",
+      "gain": 947.6523036956787,
+      "share": 0.015469891791653768
+    },
+    {
+      "feature": "pay_5",
+      "gain": 588.2867069244385,
+      "share": 0.009603450192753323
+    },
+    {
+      "feature": "pay_6",
+      "gain": 575.546703338623,
+      "share": 0.009395476787181214
+    },
+    {
+      "feature": "pay_amt5",
+      "gain": 528.8808994293213,
+      "share": 0.008633683739211943
+    },
+    {
+      "feature": "pay_amt6",
+      "gain": 500.0781002044678,
+      "share": 0.008163494213404277
+    },
+    {
+      "feature": "bill_amt5",
+      "gain": 407.23159980773926,
+      "share": 0.006647827223760808
+    },
+    {
+      "feature": "bill_amt6",
+      "gain": 365.6220989227295,
+      "share": 0.0059685754837655305
+    },
+    {
+      "feature": "bill_amt3",
+      "gain": 353.84039878845215,
+      "share": 0.005776245843993439
+    },
+    {
+      "feature": "bill_amt4",
+      "gain": 283.84620666503906,
+      "share": 0.004633629956319569
+    },
+    {
+      "feature": "education",
+      "gain": 273.5019950866699,
+      "share": 0.004464766510134425
+    },
+    {
+      "feature": "age",
+      "gain": 201.55130195617676,
+      "share": 0.003290211842011488
+    },
+    {
+      "feature": "marriage",
+      "gain": 42.428199768066406,
+      "share": 0.0006926165395968212
+    }
+  ]
+}
